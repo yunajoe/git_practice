@@ -1,0 +1,321 @@
+# git
+
+- 버전 관리를 할 때 사용하는 소프트웨어 자체
+
+# github
+
+- Git으로 관리하는 프로젝트의 복사본을 저장하는 서버를 제공해주고 협업을 위한 편의 기능을 제공해주는 서비스
+
+1. repository
+- commit이 저장 되는 곳
+- 프로젝트 디렉토리의 각 버전이 담기는 저장소 
+2. commit
+- 프로젝트 디렉토리의 특정 모습을 하나의 버전으로 남기는 행위 & 결과물
+
+-------------------------------------------------------
+
+yunajoe@yunajoe MINGW64 ~/GitPractice
+$ git init
+Initialized empty Git repository in C:/Users/yunaj/GitPractice/.git/  --> 비어 있는 레포지토리를 생성했다
+
+
+$ ls -al
+total 16
+drwxr-xr-x 1 yunajoe 197609 0 Jul  2 17:07 ./
+drwxr-xr-x 1 yunajoe 197609 0 Jul  2 15:20 ../
+drwxr-xr-x 1 yunajoe 197609 0 Jul  2 17:07 .git/ --> 레퍼지토리 
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ cd .git  --> 레퍼지토리로 들어가쟈
+
+yunajoe@yunajoe MINGW64 ~/GitPractice/.git (GIT_DIR!)
+$ ls -al
+total 11
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 ./
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 ../
+-rw-r--r-- 1 yunajoe 197609  23 Jul  2 17:07 HEAD
+-rw-r--r-- 1 yunajoe 197609 130 Jul  2 17:07 config
+-rw-r--r-- 1 yunajoe 197609  73 Jul  2 17:07 description
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 hooks/
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 info/
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 objects/
+drwxr-xr-x 1 yunajoe 197609   0 Jul  2 17:07 refs/
+
+
+------------------------------------
+
+title:  commit해보깅
+
+
+commit전에 꼭 해야할것?!
+1.이름, 이메일, 커밋에 대한 정보(변동사항)
+2.commit하기 전에 git add로 파일을 지정해주기 
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git config user.name "yunajoe"
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git config user.email "yunajoe@gmail.com"
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git commit -m "create cal.py and lincense.txt"
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        calculator.py
+        linecense
+
+nothing added to commit but untracked files present (use "git add" to track)
+--> 깃에 의해 추적되지X , 버전관리 대상 X
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add calculator.py
+--> commit할 파일들을 지정해주기 
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add linecense
+
+
+# 다시 한번 커밋해주깅
+$ git commit -m "Create cal.py and lincense.txt"
+[master (root-commit) 4f18d66] Create cal.py and lincense.txt  --> root commit은 첫 번째 커밋이라 뜻
+ 2 files changed, 9 insertions(+)  --> 2개의 파일 추가, 9개의 줄 추가
+ create mode 100644 calculator.py
+ create mode 100644 linecense
+------------------------------------------------------------------------
+
+Git은 내부적으로 크게 3가지 종류의 작업 영역
+
+
+1. working directory 
+-  working tree 
+- 작업을 하는 프로젝트 디렉토리, 즉 GitPractice 디렉토리 
+
+2. staging area 
+-  index라고도함
+- git add를 한 파일들이 존재하는 영역
+- staging area에 있는 파일들만 커밋
+만약 staging area가 없다면 원하는 것들만 선별적으로 커밋에 반영할 수 없게 됩니다
+
+
+
+3. repository
+- working directory의 변경 이력들이 저장되어 있는 영역
+- working directory 안에 있는 .git 디렉토리가 레포지토리
+- 커밋들이 저장되는 영역
+
+요약: 
+1.working directory에서 뭔가 작업
+2.작업한 파일들을 git add -- 파일들이 staing area에 올라감
+3.커밋을 하면 staging area에 있던 파일들의 모습이 마치 영화의 한 장면, 스냅샷(snapshot)처럼 이 repository에 저장
+
+------------------------------------------------------------------------
+
+calculator.py 와 license.txt 변경을 해줌
+
+
+# 계산기 
+
+def add(a,b):
+	return a+b
+
+def subtract(a,b):
+	return a-b
+
+
+# 라이센스
+Free
+
+
+
+# calculator.py만 add해주기 
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add calculator.py 
+
+
+# commit에 반영될 변경사항 
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   calculator.py
+
+# 커밋에 반영되지 않은 변경사항
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   linecense
+
+
+#   linecense도 add해보쟈
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add linecense
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   calculator.py
+        modified:   linecense
+
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ mkdir meeting-log
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ cd meeting-log
+
+# 파일만들기
+yunajoe@yunajoe MINGW64 ~/GitPractice/meeting-log (master)
+$ touch day1
+
+yunajoe@yunajoe MINGW64 ~/GitPractice/meeting-log (master)
+$ touch day2
+------------------------------------------------------
+# 다시 calculator.py, linecense 수정해보기 
+
+
+# 기본 계산기 
+
+def add(a,b):
+	return a+b
+
+def subtract(a,b):
+	return a-b
+
+# 기본 라이센스
+Free
+---------------------------------------------------------------------
+
+yunajoe@yunajoe MINGW64 ~/GitPractice/meeting-log (master)
+$ cd ..
+
+#meeting-log 폴더 안에 있는 모든 파일들을 add하기 
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add meeting-log/
+
+# 현재 git status보기 
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   calculator.py
+        modified:   linecense
+        new file:   meeting-log/day1
+        new file:   meeting-log/day2
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   calculator.py
+
+# 모든 파일 add하기 
+$ git add.
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   calculator.py
+        modified:   linecense
+        new file:   meeting-log/day1
+        new file:   meeting-log/day2
+
+------------------------------------------------------------
+
+Git이 보는 파일의 4가지 상태
+
+1.Untracked 상태
+- , 파일을 새로 생성하고 그 파일을 한 번도 git add 해주지 않았다면 이 상태
+2.Tracked 상태 
+- 파일이 Git에 의해 그 변동사항이 추적되고 있는 상태
+
+2-1. Staged 상태
+- staging area에 올라와있는 상태 (즉 git add한 상태) 
+
+2-2. Unmodified 상태
+- 현재 파일의 내용이 최신 커밋의 모습과 비교했을 때 전혀 바뀐 게 없는 상태
+
+2-3. Modified 상태
+- 최신 커밋의 모습과 비교했을 때 조금이라도 바뀐 내용이 있는 상태면 그 파일은 Modified(수정된) 상태
+사진1추가 
+------------------------------------------------------------
+
+#  git reset
+stating area에서 파일제거 
+
+calculator.py 수정해주기 
+
+
+# 기본 계산기 
+
+def add(a,b):
+	return a+b
+
+def subtract(a,b):
+	return a-b
+
+def hello():
+	print("sayhello")
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git add calculator.py
+
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   calculator.py
+
+
+# 삭제
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git reset calculator.py
+Unstaged changes after reset:
+M       calculator.py
+
+yunajoe@yunajoe MINGW64 ~/GitPractice (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   calculator.py
+
+# hello()함수 제거 
+# 기본 계산기 
+
+def add(a,b):
+	return a+b
+
+def subtract(a,b):
+	return a-b
+
+git status 현재 Git이 인식하고 있는 프로젝트의 상태
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+

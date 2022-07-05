@@ -123,3 +123,42 @@ git push -u origin master : local repository를 remote repository에 올릴 때 
 git push : local repository의 내용을 remote repository에 보내기 
 git pull : remote repository의 내용을 local repository로 가져오기
 git clone [프로젝트의 GitHub 상 주소] : GitHub에 있는 프로젝트를 내 컴퓨터로 가져오기
+
+----------------------------------------------------------------------------------------
+# 기존에 있던 remote repository(하지만 local repository는 없을 때)에 local repository에서 remote repository 랑 연결할려면!
+
+## 경로 새로 만들기
+yunajoe@yunajoe MINGW64 ~
+$ mkdir CS_BASICS
+
+yunajoe@yunajoe MINGW64 ~
+$ cd CS_BASICS
+
+yunajoe@yunajoe MINGW64 ~/CS_BASICS
+$ git init
+Initialized empty Git repository in C:/Users/yunaj/CS_BASICS/.git/
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+
+# 파일하나 넣어주기
+$ ls
+가상화종류.txt
+
+
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+$ git config user.name "yunajoe"
+
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+$ git config user.email "yunajoe@gmail.com"
+
+# 커밋내용
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+$ git commit -m "vitual_commit"
+
+#  commit할 repository 주소 
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+$ git remote add origin https://github.com/yunajoe/Computer-Science-Basic.git
+
+yunajoe@yunajoe MINGW64 ~/CS_BASICS (master)
+$ git push -u origin master
+
+
